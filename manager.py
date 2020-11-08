@@ -1,4 +1,5 @@
 """Module for managing Jira actions"""
+import os
 import click
 
 from utils import branchify
@@ -26,15 +27,17 @@ class Manager:
 
     def update_scratch_window(self, issue):
         """Either overwrite or append the current scratch window"""
-        with open('/tmp/scratch.vim' , 'r') as file:
+        project_name = os.path.basename(os.getcwd())
+        scratch_path = f"/tmp/scratch/{project_name}.md"
+        with open(scratch_path , 'r') as file:
             current_notes = file.read(100)
             overwrite = click.confirm(
                 f"Overwrite current scratch window?\n{current_notes}...",
                 default=True,
             )
         if overwrite:
-            with open('/tmp/scratch.md' , 'w') as file:
+            with open(scratch_path, 'w') as file:
                 file.write(issue.description())
         else:
-            with open('/tmp/scratch.vim' , 'a') as file:
+            with open(scratch_path, 'a') as file:
                 file.write(issue.description())
