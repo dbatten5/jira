@@ -1,10 +1,9 @@
 """Module for defining CLI"""
 
-from os import getcwd
 import click
-from git import Repo, RemoteProgress
+from git import Repo
 from jira import Issue
-from utils import branchify
+from manager import Manager
 
 @click.group()
 def cli():
@@ -14,34 +13,15 @@ def cli():
 @cli.command()
 def new(url):
     """Start a new Jira ticket"""
-    repo = Repo('/Users/dominic.batten/projects/eigen')
+    repo = Repo('.', search_parent_directories=True)
+    manager = Manager(version_control=repo)
+
     if repo.is_dirty():
         return click.echo('You have unstaged changes. Aborting')
+
     issue = Issue(url)
-    # branch_input = branchify(
-    #     click.prompt(
-    #         'Please enter branch name',
-    #         default=issue.default_title(),
-    #     ),
-    # )
-    # new_branch = f"{issue.type()}/{branch_input}/{issue.key()}"
-    # click.echo(f"Creating new branch {new_branch}")
-    # repo.git.checkout('master')
-    # click.echo("Pulling latest master")
-    # repo.remotes.origin.pull('master')
-    # click.echo("Switching to new branch")
-    # current = repo.create_head(new_branch)
-    # current.checkout()
-    # with open('/tmp/scratch.vim' , 'r') as file:
-    #     current_notes = file.read(100)
-    #     overwrite = click.confirm(
-    #         f"Overwrite current scratch window?\n{current_notes}...",
-    #         default=True,
-    #     )
-    # if overwrite:
-    with open('/tmp/scratch.md' , 'w') as file:
-        file.write(issue.description())
-    # else:
-    #     with open('/tmp/scratch.vim' , 'a') as file:
-    #         file.write(issue.description())
+
+    manager.move_to_new_branch(issue)
+    manager.update_scratch_window(issue)
+
     click.echo("Done")
