@@ -4,7 +4,7 @@ Python cli package to automate some Jira actions for local development
 
 ## Actions
 
-### New Jira issue
+### Start a new ticket
 
 ```
 jira new
@@ -12,7 +12,7 @@ jira new
 
 This does the following:
 
-- Pulls the given Jira issue using the Jira API
+- Pull the given Jira issue using the Jira API
 - Ask for a branch name, giving the title of the issue as a default
 - Switch to master branch and pull
 - Checkout the new branch
