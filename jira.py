@@ -3,7 +3,7 @@
 import requests
 from requests.auth import HTTPBasicAuth
 
-import config
+from config import BASE_URL, EMAIL, API_TOKEN
 from utils import branchify, note_formatted
 
 class Issue():
@@ -38,7 +38,7 @@ class Issue():
     def __fetch(self) -> dict:
         issue_id = self.key()
         return requests.get(
-            f"{config.BASE_URL}/{issue_id}?fields=summary,description,issuetype",
-            auth=HTTPBasicAuth(config.EMAIL, config.API_TOKEN),
+            f"{BASE_URL}/{issue_id}?fields=summary,description,issuetype",
+            auth=HTTPBasicAuth(EMAIL, API_TOKEN),
             headers={'Content-Type': 'application/json'}
         ).json()
