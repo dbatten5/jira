@@ -24,20 +24,15 @@ class Manager:
         click.echo("Switching to new branch")
         current = self.vcs.create_head(new_branch)
         current.checkout()
+        return new_branch
 
-    def update_scratch_window(self, issue):
-        """Either overwrite or append the current scratch window"""
+    def update_scranch_window(self, issue, branch_name):
+        """Add the description to a new scranch note"""
         project_name = os.path.basename(os.getcwd())
-        scratch_path = f"/tmp/scratch/{project_name}.md"
-        with open(scratch_path , 'r') as file:
-            current_notes = file.read(100)
-            overwrite = click.confirm(
-                f"Overwrite current scratch window?\n{current_notes}...",
-                default=True,
-            )
-        if overwrite:
-            with open(scratch_path, 'w') as file:
-                file.write(issue.description())
-        else:
-            with open(scratch_path, 'a') as file:
-                file.write(issue.description())
+        scranch_project_path = f"/tmp/scranch/{project_name}"
+        if not os.path.exists(scranch_project_path):
+            os.makedirs(scranch_project_path)
+        sanitized_branch_name = branch_name.replace('/', '_')
+        scratch_path = f"{scranch_project_path}/{sanitized_branch_name}.md"
+        with open(scratch_path , 'w+') as file:
+            file.write(issue.description())

@@ -21,7 +21,7 @@ def new(url):
 
     issue = Issue(url)
 
-    manager.move_to_new_branch(issue)
-    manager.update_scratch_window(issue)
+    branch_name = manager.move_to_new_branch(issue)
+    manager.update_scranch_window(issue, branch_name)
 
     click.echo("Done")

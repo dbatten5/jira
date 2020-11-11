@@ -13,7 +13,7 @@ jira new
 This does the following:
 
 - Pull the given Jira issue using the Jira API
-- Ask for a branch name, giving the title of the issue as a default
+- Ask for a branch name, with the title of the issue given as a default
 - Switch to master branch and pull
 - Checkout the new branch
 - Add the description of the issue to a notepad for use with [scratch.vim](https://github.com/mtth/scratch.vim)

@@ -9,7 +9,6 @@ def branchify(name: str) -> str:
 def note_formatted(text: str) -> str:
     """Format to look nice in a markdown note"""
     text = text.replace('{{', '`').replace('}}', '`')
-
     return wrap_text(text)
 
 def wrap_text(text: str, width=80) -> str:
@@ -18,9 +17,7 @@ def wrap_text(text: str, width=80) -> str:
         return textwrap.fill(text, width=width)
 
     new_text = ""
-
     lines = text.split("\n")
-
     for line in lines:
         if len(line) > width:
             wrapper = textwrap.TextWrapper(width=width, break_long_words=False)
